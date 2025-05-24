@@ -4,19 +4,6 @@ require "dry/cli"
 
 module MultiAgent
   module Command
-    class CLI < Dry::CLI::Command
-      def self.start(argv)
-        Dry::CLI.new.tap do |cli|
-          cli.register "compile", Compile
-          cli.register "run", Run
-          cli.register "evaluate", Evaluate
-          cli.register "run_job", RunJob
-          cli.register "new", New
-          cli.register "plugins:list", PluginsList
-        end.call(arguments: argv)
-      end
-    end
-
     class Compile < Dry::CLI::Command
       desc "Compile markdown to IR"
       argument :artefact, required: true, desc: "Path to markdown file"
@@ -122,6 +109,26 @@ module MultiAgent
             puts "  - #{plugin[:name]} (v#{plugin[:version]}): #{plugin[:description]}"
           end
         end
+      end
+    end
+
+    module CLI
+      module Commands
+        extend Dry::CLI::Registry
+
+        register "compile", Compile
+        register "run", Run
+        register "evaluate", Evaluate
+        register "run_job", RunJob, aliases: ["job"]
+        register "new", New
+        
+        register "plugins" do |prefix|
+          prefix.register "list", PluginsList
+        end
+      end
+
+      def self.start(argv)
+        Dry::CLI.new(Commands).call(arguments: argv)
       end
     end
   end
