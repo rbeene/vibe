@@ -44,20 +44,18 @@ module MultiAgent
 
     def execute_concurrent(graph)
       Async do |task|
-        barrier = Async::Barrier.new
-        
         while @completed.size < graph.nodes.size
           ready = graph.ready_nodes(@completed.to_a)
           break if ready.empty?
           
-          ready.each do |node|
-            barrier.async do
+          tasks = ready.map do |node|
+            task.async do
               execute_node(node)
               @completed << node.id
             end
           end
           
-          barrier.wait
+          tasks.each(&:wait)
         end
       end
     end
@@ -74,7 +72,7 @@ module MultiAgent
       ]
       
       @runtime.lifecycle_start(node.name)
-      response = @runtime.call(messages)
+      @runtime.call(messages)
       duration = Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time
       @runtime.lifecycle_end(node.name, (duration * 1000).round(2))
       

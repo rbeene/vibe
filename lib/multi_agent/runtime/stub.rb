@@ -16,6 +16,9 @@ module MultiAgent
         start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
         log_request(messages, tools)
 
+        # Simulate some work with a small delay
+        sleep(0.01) if ENV["SIMULATE_WORK"] == "true"
+
         # Deterministic fake response
         response = if tools.any?
                      {

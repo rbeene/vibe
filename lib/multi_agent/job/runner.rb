@@ -50,10 +50,21 @@ module MultiAgent
 
       def should_run_now?(schedule)
         now = Time.now
-        prev = schedule.previous_time(now)
         
-        # Run if previous scheduled time was within last minute
-        prev && (now - prev) < 60
+        # Check if we're at the exact scheduled time (within 1 second)
+        next_time = schedule.next_time(now - 1)
+        if next_time && (next_time.to_f - now.to_f).abs < 1
+          return true
+        end
+        
+        # Otherwise, check if previous scheduled time was within last minute
+        prev = schedule.previous_time(now)
+        return false unless prev
+        
+        # Convert EtOrbi::EoTime to seconds since epoch for comparison
+        prev_seconds = prev.to_f
+        now_seconds = now.to_f
+        (now_seconds - prev_seconds) < 60
       end
 
       def execute_job(job_path, metadata)

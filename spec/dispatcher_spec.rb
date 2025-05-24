@@ -23,6 +23,9 @@ RSpec.describe MultiAgent::Dispatcher do
       let(:graph) { create_parallel_graph }
 
       it "executes tasks faster with concurrency" do
+        # Enable simulated work for this test
+        ENV["SIMULATE_WORK"] = "true"
+        
         # Measure sequential
         seq_dispatcher = described_class.new(runtime: runtime, concurrency: 1)
         seq_start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
@@ -38,6 +41,9 @@ RSpec.describe MultiAgent::Dispatcher do
         # Concurrent should be at least 30% faster for parallel tasks
         speedup = (seq_duration - con_duration) / seq_duration
         expect(speedup).to be > 0.3
+        
+        # Clean up
+        ENV.delete("SIMULATE_WORK")
       end
     end
   end

@@ -7,6 +7,8 @@ RSpec.describe MultiAgent::Markdown::Compiler do
 
   before do
     FileUtils.mkdir_p("workflows")
+    FileUtils.mkdir_p("agents")
+    FileUtils.mkdir_p("tmp/ir/workflows")
   end
 
   describe "#compile" do

@@ -26,6 +26,13 @@
 /tmp/
 /audit.jsonl
 
+# Development directories (may be created during testing)
+/agents/
+/jobs/
+/plugins/
+/tasks/
+/workflows/
+
 # IDE
 .idea/
 .vscode/

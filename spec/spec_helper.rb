@@ -6,6 +6,7 @@ require "webmock/rspec"
 require "timecop"
 require "climate_control"
 require "fileutils"
+require "tmpdir"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -30,10 +31,13 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 
-  config.before(:each) do
-    # Clean test directories
-    %w[tmp log audit.jsonl].each do |path|
-      FileUtils.rm_rf(path)
+  config.around(:each) do |example|
+    # Create a temporary directory for each test
+    Dir.mktmpdir("multi_agent_test") do |tmpdir|
+      # Change to the temporary directory
+      Dir.chdir(tmpdir) do
+        example.run
+      end
     end
   end
 

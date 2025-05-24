@@ -2,6 +2,10 @@
 
 This Ruby gem is **MultiAgent** - a framework for building and orchestrating multi-agent AI systems.
 
+## Development Guidelines
+
+- **Always verify fixes as you go** - After making changes to fix tests or bugs, run the affected tests immediately to confirm the fix works before moving to the next issue.
+
 ## Core Purpose
 - Orchestrates AI agents to work together on complex tasks
 - Provides a workflow system where multiple AI agents can collaborate

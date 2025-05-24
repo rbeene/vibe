@@ -5,7 +5,7 @@ require "fileutils"
 
 module MultiAgent
   class Generator
-    TEMPLATE_DIR = File.expand_path("../../templates", __FILE__)
+    TEMPLATE_DIR = File.expand_path("../../../templates", __FILE__)
 
     def generate(type, name)
       template_file = File.join(TEMPLATE_DIR, "#{type}.md.erb")
