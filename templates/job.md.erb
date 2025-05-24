@@ -1,0 +1,18 @@
+---
+name: "<%= @name %>"
+cron: "0 9 * * *"
+workflow: "example_workflow"
+runtime: "stub"
+concurrency: 1
+---
+
+# <%= @name.capitalize %> Job
+
+## Description
+Describe what this scheduled job does.
+
+## Schedule
+Runs daily at 9:00 AM
+
+## Workflow
+Executes the `example_workflow` workflow.

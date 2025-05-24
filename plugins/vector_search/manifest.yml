@@ -1,0 +1,19 @@
+name: "vector_search"
+version: "0.1.0"
+description: "Vector search plugin for MultiAgent"
+author: "MultiAgent Team"
+tools:
+  - name: "vector_search"
+    description: "Search using vector similarity"
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: "Search query"
+        k:
+          type: integer
+          description: "Number of results to return"
+          default: 10
+      required:
+        - query

@@ -1,11 +1,42 @@
-/.bundle/
-/.yardoc
-/_yardoc/
+# Ruby
+*.gem
+*.rbc
+/.config
 /coverage/
-/doc/
+/InstalledFiles
 /pkg/
 /spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
 /tmp/
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+.byebug_history
+.ruby-version
+.ruby-gemset
+.rvmrc
 
-# rspec failure tracking
-.rspec_status
+# Logs
+/log/
+*.log
+
+# Temporary files
+/tmp/
+/audit.jsonl
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*

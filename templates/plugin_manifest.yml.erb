@@ -1,0 +1,15 @@
+name: "<%= @name %>"
+version: "0.1.0"
+description: "<%= @name.capitalize %> plugin for MultiAgent"
+author: "Your Name"
+tools:
+  - name: "<%= @name %>_search"
+    description: "Search using <%= @name %>"
+    parameters:
+      type: object
+      properties:
+        query:
+          type: string
+          description: "Search query"
+      required:
+        - query

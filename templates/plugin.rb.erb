@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+module MultiAgent
+  module Plugins
+    class <%= @name.capitalize %>
+      def initialize
+        @logger = SemanticLogger[self.class]
+      end
+
+      def <%= @name %>_search(query:)
+        @logger.info("Executing <%= @name %> search", query: query)
+        
+        # Implement your plugin logic here
+        {
+          status: "success",
+          results: [
+            { id: 1, content: "Sample result for: #{query}" }
+          ]
+        }
+      end
+    end
+  end
+end
