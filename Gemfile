@@ -17,7 +17,7 @@ gem "fugit",         "~> 1.5"
 gem "semantic_logger","~> 4.15"
 
 group :test do
-  gem "minitest",    "~> 5.22"
+  gem "rspec",       "~> 3.5.0"
   gem "webmock",     "~> 3.23"
   gem "timecop",     "~> 0.9"
   gem "climate_control", "~> 1.2"
