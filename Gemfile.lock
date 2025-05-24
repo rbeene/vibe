@@ -1,3 +1,19 @@
+PATH
+  remote: .
+  specs:
+    multi_agent (0.1.0)
+      async (~> 2.10)
+      commonmarker (~> 0.23)
+      dry-cli (~> 1.0)
+      dry-struct (~> 1.6)
+      dry-types (~> 1.7)
+      dry-validation (~> 1.10)
+      faraday (~> 2.9)
+      fugit (~> 1.5)
+      json-schema (~> 4.1)
+      semantic_logger (~> 4.15)
+      zeitwerk (~> 2.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -121,21 +137,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  async (~> 2.10)
   climate_control (~> 1.2)
-  commonmarker (~> 0.23)
-  dry-cli (~> 1.0)
-  dry-struct (~> 1.6)
-  dry-types (~> 1.7)
-  dry-validation (~> 1.10)
-  faraday (~> 2.9)
-  fugit (~> 1.5)
-  json-schema (~> 4.1)
+  multi_agent!
   rspec (~> 3.5.0)
-  semantic_logger (~> 4.15)
   timecop (~> 0.9)
   webmock (~> 3.23)
-  zeitwerk (~> 2.6)
 
 RUBY VERSION
    ruby 3.4.2p28

@@ -24,5 +24,22 @@ Gem::Specification.new do |spec|
   spec.executables   = ["mag"]
   spec.require_paths = ["lib"]
 
-  # Dependencies are managed in Gemfile
+  # Runtime dependencies
+  spec.add_runtime_dependency "zeitwerk",         "~> 2.6"
+  spec.add_runtime_dependency "commonmarker",     "~> 0.23"
+  spec.add_runtime_dependency "dry-validation",   "~> 1.10"
+  spec.add_runtime_dependency "dry-struct",       "~> 1.6"
+  spec.add_runtime_dependency "dry-types",        "~> 1.7"
+  spec.add_runtime_dependency "json-schema",      "~> 4.1"
+  spec.add_runtime_dependency "dry-cli",          "~> 1.0"
+  spec.add_runtime_dependency "faraday",          "~> 2.9"
+  spec.add_runtime_dependency "async",            "~> 2.10"
+  spec.add_runtime_dependency "fugit",            "~> 1.5"
+  spec.add_runtime_dependency "semantic_logger",  "~> 4.15"
+
+  # Development dependencies
+  spec.add_development_dependency "rspec",           "~> 3.5.0"
+  spec.add_development_dependency "webmock",         "~> 3.23"
+  spec.add_development_dependency "timecop",         "~> 0.9"
+  spec.add_development_dependency "climate_control", "~> 1.2"
 end

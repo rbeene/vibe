@@ -2,6 +2,7 @@
 
 require "zeitwerk"
 require "semantic_logger"
+require "dry-validation"
 
 module MultiAgent
   class << self
@@ -27,7 +28,6 @@ module MultiAgent
 
     def load_config
       require "yaml"
-      require "dry-validation"
       
       config_file = File.expand_path("../../config/project.yaml", __FILE__)
       raw_config = YAML.load_file(config_file)
