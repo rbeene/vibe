@@ -1,4 +1,4 @@
-# MultiAgent
+#   MultiAgent
 
 A Ruby framework for building and orchestrating multi-agent AI systems.
 
