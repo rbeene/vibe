@@ -121,6 +121,7 @@ module MultiAgent
         register "evaluate", Evaluate
         register "run_job", RunJob, aliases: ["job"]
         register "new", New
+        register "repl", Repl
         
         register "plugins" do |prefix|
           prefix.register "list", PluginsList

@@ -2,11 +2,24 @@
 
 require "json"
 require "fileutils"
+require "monitor"
 
 module MultiAgent
   class Blackboard
-    def initialize(path: "tmp/blackboard.jsonl")
+    include MonitorMixin
+    attr_reader :entries, :trace
+
+    @instances = {}
+
+    def self.current(trace:)
+      @instances[trace] ||= new(trace: trace)
+    end
+
+    def initialize(path: "tmp/blackboard.jsonl", trace: nil)
+      super()
       @path = path
+      @trace = trace
+      @entries = []
       @logger = SemanticLogger[self.class]
       FileUtils.mkdir_p(File.dirname(@path))
     end
@@ -19,11 +32,19 @@ module MultiAgent
         value: value
       }
       
-      File.open(@path, "a") do |f|
-        f.puts(entry.to_json)
+      synchronize do
+        @entries << { ts: Time.now.utc, data: entry }
+        
+        File.open(@path, "a") do |f|
+          f.puts(entry.to_json)
+        end
       end
       
       @logger.debug("Blackboard write", agent: agent_name, key: key)
+    end
+
+    def <<(item)
+      synchronize { @entries << { ts: Time.now.utc, data: item } }
     end
 
     def read(key = nil)
@@ -43,7 +64,10 @@ module MultiAgent
     end
 
     def clear
-      File.delete(@path) if File.exist?(@path)
+      synchronize do
+        @entries.clear
+        File.delete(@path) if File.exist?(@path)
+      end
       @logger.info("Blackboard cleared")
     end
   end
