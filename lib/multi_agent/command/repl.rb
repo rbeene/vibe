@@ -9,7 +9,7 @@ module MultiAgent
       option   :runtime,  default: "stub", desc: "Runtime adapter"
       option   :concurrency, default: 4, type: :integer
 
-      def call(workflow: nil, runtime: "stub", concurrency: 4, **)
+      def call(workflow: nil, runtime: "openai", concurrency: 4, **)
         ir = nil
         if workflow
           compiler = Markdown::Compiler.new

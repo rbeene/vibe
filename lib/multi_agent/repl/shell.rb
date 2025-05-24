@@ -9,6 +9,7 @@ module MultiAgent
 
       def initialize(session)
         @session = session
+        @conversation_mode = false
       end
 
       def start
@@ -33,10 +34,16 @@ module MultiAgent
               reload_agent($1)
             when %r{^/agents}
               show_agents
+            when %r{^/conv}
+              toggle_conversation_mode
             when %r{^@(\S+):\s+(.+)}
               send_to_agent($1, $2)
             else
-              send_to_all(line)
+              if @conversation_mode
+                send_to_all(line)
+              else
+                send_to_all_simple(line)
+              end
             end
           rescue StandardError => e
             puts "Error: #{e.message}"
@@ -60,8 +67,11 @@ module MultiAgent
             /mem <agent>   - Show memory for agent
             /reload <path> - Load/reload agent from file
             /agents        - List loaded agents
+            /conv          - Toggle conversation mode (agents talk to each other)
             @<agent>: msg  - Send message to specific agent
             <message>      - Send message to all agents
+            
+          Conversation mode: #{@conversation_mode ? 'ON' : 'OFF'}
         HELP
       end
 
@@ -116,18 +126,42 @@ module MultiAgent
         end
       end
 
+      def toggle_conversation_mode
+        @conversation_mode = !@conversation_mode
+        puts "Conversation mode: #{@conversation_mode ? 'ON' : 'OFF'}"
+        if @conversation_mode
+          puts "Agents will now respond to each other in a natural conversation."
+        else
+          puts "Agents will respond individually without interacting."
+        end
+      end
+
       def send_to_all(message)
-        responses = @session.send_message(message)
-        if responses.is_a?(Hash)
-          responses.each do |agent_name, response|
-            puts "#{agent_name}: #{response[:content] || '(no response)'}"
+        puts "\nUser: #{message}\n"
+        
+        # Start conversation with block for real-time display
+        @session.send_message(message) do |agent_name, response|
+          if response[:content] && !response[:content].strip.empty?
+            puts "\n#{agent_name}: #{response[:content]}"
             
             if response[:tool_calls]
               puts "  Tool calls: #{response[:tool_calls].map { |tc| tc[:function][:name] }.join(', ')}"
             end
           end
-        else
-          puts "Response: #{responses.inspect}"
+        end
+        
+        puts # Empty line for readability
+      end
+
+      def send_to_all_simple(message)
+        # Original behavior - all agents respond independently
+        responses = @session.send_message(message, simple_mode: true)
+        responses.each do |agent_name, response|
+          puts "\n#{agent_name}: #{response[:content] || '(no response)'}"
+          
+          if response[:tool_calls]
+            puts "  Tool calls: #{response[:tool_calls].map { |tc| tc[:function][:name] }.join(', ')}"
+          end
         end
       end
     end
